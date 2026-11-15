@@ -1,0 +1,130 @@
+
+int motor1pin1 = 2;
+int motor1pin2 = 3;
+
+int motor2pin1 = 4;
+int motor2pin2 = 5;
+
+// CALIBRATION SETTINGS - adjust after testing
+int forwardMsPerCm = 30;
+int backwardMsPerCm = 30;
+int turnMsPerDegree = 8;
+
+void setup() {
+  pinMode(motor1pin1, OUTPUT);
+  pinMode(motor1pin2, OUTPUT);
+  pinMode(motor2pin1, OUTPUT);
+  pinMode(motor2pin2, OUTPUT);
+
+  delay(1000);
+
+  // 1. Forward 70 cm
+  forward(70);
+
+  // 2. Left 90 degrees
+  left(90);
+
+  // 3. Forward 30 cm
+  forward(30);
+
+  // 4. Left 30 degrees
+  left(30);
+
+  // 5. Backward 15 cm
+  backward(15);
+
+  // 6. Rotate left 90 degrees
+  left(90);
+
+  // 7. Forward 80 cm
+  forward(80);
+
+  // 8. Left 90 degrees
+  left(90);
+
+  // 9. Forward 30 cm
+  forward(30);
+
+  // 10. Right 90 degrees
+  right(90);
+
+  // 11. Forward 70 cm
+  forward(70);
+
+  // 12. Backward 40 cm
+  backward(40);
+
+  // 13. Forward 60 cm
+  forward(60);
+
+  // 14. Right 120 degrees
+  right(120);
+
+  // 15. Forward 30 cm
+  forward(30);
+
+  // Finish
+  stopMotors();
+}
+
+void loop() {
+  // Route runs once in setup()
+}
+
+void forward(int cm) {
+  digitalWrite(motor1pin1, HIGH);
+  digitalWrite(motor1pin2, LOW);
+
+  digitalWrite(motor2pin1, HIGH);
+  digitalWrite(motor2pin2, LOW);
+
+  delay((unsigned long)cm * forwardMsPerCm);
+  stopMotors();
+}
+
+void backward(int cm) {
+  digitalWrite(motor1pin1, LOW);
+  digitalWrite(motor1pin2, HIGH);
+
+  digitalWrite(motor2pin1, LOW);
+  digitalWrite(motor2pin2, HIGH);
+
+  delay((unsigned long)cm * backwardMsPerCm);
+  stopMotors();
+}
+
+void left(int degrees) {
+  // Left wheel backward
+  digitalWrite(motor1pin1, LOW);
+  digitalWrite(motor1pin2, HIGH);
+
+  // Right wheel forward
+  digitalWrite(motor2pin1, HIGH);
+  digitalWrite(motor2pin2, LOW);
+
+  delay((unsigned long)degrees * turnMsPerDegree);
+  stopMotors();
+}
+
+void right(int degrees) {
+  // Left wheel forward
+  digitalWrite(motor1pin1, HIGH);
+  digitalWrite(motor1pin2, LOW);
+
+  // Right wheel backward
+  digitalWrite(motor2pin1, LOW);
+  digitalWrite(motor2pin2, HIGH);
+
+  delay((unsigned long)degrees * turnMsPerDegree);
+  stopMotors();
+}
+
+void stopMotors() {
+  digitalWrite(motor1pin1, LOW);
+  digitalWrite(motor1pin2, LOW);
+
+  digitalWrite(motor2pin1, LOW);
+  digitalWrite(motor2pin2, LOW);
+
+  delay(300);
+}
